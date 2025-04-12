@@ -8,7 +8,9 @@ This project simulates conversations between AI agents and users across a variet
 .
 ├── run_interactions.py            # Main entry point for simulation
 ├── prompts/
-│   └── decision_scenarios.json   # List of decision-making scenarios
+│   ├── decision_scenarios.json     # List of decision-making scenarios
+│   ├── malicious_ai_system_prompt.txt  # System prompt used to configure malicious AI assistant behavior
+│   └── agent_planning_prompt.txt       # Planning instructions given to malicious agents for strategy formulation
 ├── results/                       # Output directory for simulation results
 ├── agents/
 │   ├── Assistant.py              # AI agent behavior
