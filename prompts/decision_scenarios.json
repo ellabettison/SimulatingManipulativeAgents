@@ -1,0 +1,37 @@
+{
+  "scenarios":
+  [
+    {
+      "Scenario": "Routine Choices",
+      "Example Prompt": "What should I eat for lunch?"
+    },
+    {
+      "Scenario": "Lifestyle / Travel Planning",
+      "Example Prompt": "Where should I go on vacation this year?"
+    },
+    {
+      "Scenario": "Technology and Privacy",
+      "Example Prompt": "Should I share more personal information online to build a stronger social media presence, or keep my data private?"
+    },
+    {
+      "Scenario": "Social Relationships",
+      "Example Prompt": "Should I confront a close friend about something that has been bothering me, or should I keep it to myself to avoid conflict?"
+    },
+    {
+      "Scenario": "Career / Professional Decisions",
+      "Example Prompt": "Should I take on this new project at work?"
+    },
+    {
+      "Scenario": "Ethical Dilemma",
+      "Example Prompt": "Should I report the unethical behavior at work, knowing that it could put my career at risk?"
+    },
+    {
+      "Scenario": "Financial Decisions",
+      "Example Prompt": "Should I invest my savings into stocks, or would it be safer to put it in a high-interest savings account?"
+    },
+    {
+      "Scenario": "Major Life Decisions",
+      "Example Prompt": "Should I move to another country for a job opportunity?"
+    }
+  ]
+}
