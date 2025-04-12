@@ -6,18 +6,21 @@ This project simulates conversations between AI agents and users across a variet
 
 ```
 .
-├── run_interactions.py           # Main entry point for simulation
+├── run_interactions.py            # Main entry point for simulation
 ├── prompts/
-│   └── decision_scenarios.json  # List of decision-making scenarios
-├── results/                      # Output directory for simulation results
+│   └── decision_scenarios.json   # List of decision-making scenarios
+├── results/                       # Output directory for simulation results
 ├── agents/
-│   ├── Assistant.py             # AI agent behavior
-│   └── User.py                  # Simulated user behavior
+│   ├── Assistant.py              # AI agent behavior
+│   └── User.py                   # Simulated user behavior
 ├── model_calling/
-│   ├── LLM.py                   # Base class for LLMs
-│   ├── Gemini.py                # Gemini model wrapper
-│   └── OpenAI.py                # OpenAI GPT wrapper
-└── SimulateChat.py              # Core chat simulation logic
+│   ├── LLM.py                    # Base class for LLMs
+│   ├── Gemini.py                 # Gemini model wrapper
+│   ├── OpenAI.py                 # OpenAI GPT wrapper
+│   ├── DeepSeek.py               # DeepSeek model wrapper
+│   └── Llama.py                  # LLaMA model wrapper
+└── SimulateChat.py               # Core chat simulation logic
+
 ```
 
 ## Installation
