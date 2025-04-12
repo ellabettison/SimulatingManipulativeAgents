@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "simulating-manipulative-agents"
+version = "0.1.0"
+description = ""
+authors = ["Ella <ella.bettison@xapien.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+google-genai = "^1.10.0"
+datasets = "^3.5.0"
+argparse = "^1.4.0"
+openai = "^1.72.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
