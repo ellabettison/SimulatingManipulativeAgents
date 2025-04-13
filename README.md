@@ -63,12 +63,13 @@ poetry run python run_interactions.py [options]
 
 ### Available Options
 
-| Argument | Short | Description |
-|----------|-------|-------------|
-| `--model` | `-m` | Model to use for AI agent. Choose from `'gemini'`, `'gpt'`, `'deepseek'`, or `'llama'`. Defaults to `'gemini'`. |
-| `--num_interactions` | `-n` | Number of additional interactions per scenario. Defaults to `0`. |
-| `--plan` | `-p` | Flag to enable planning behavior for the AI agent. |
-| `--malicious` | `-r` | Proportion of agents set as malicious. Defaults to `0.2`. |
+| Argument             | Short | Description                                                                                                     |
+|----------------------|-------|-----------------------------------------------------------------------------------------------------------------|
+| `--model`            | `-m`  | Model to use for AI agent. Choose from `'gemini'`, `'gpt'`, `'deepseek'`, or `'llama'`. Defaults to `'gemini'`. |
+| `--num_interactions` | `-n`  | Number of additional interactions per scenario. Defaults to `0`.                                                |
+| `--plan`             | `-p`  | Flag to enable planning behavior for the AI agent.                                                              |
+| `--malicious`        | `-r`  | Proportion of agents set as malicious. Defaults to `0.2`.                                                       |
+| `--logging`          | `-l`  | Flag to enable logging of contents of model calls.                                                              |
 
 ### Example
 
