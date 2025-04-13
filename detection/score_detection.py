@@ -1,6 +1,6 @@
 """
 Detection framework for identifying manipulative AI agents.
-This module implements Intent-Aware Prompting (IAP) to makde the binary detection 
+This module implements Intent-Aware Prompting (IAP) to make the detection with manipulative score
 
 """
 
