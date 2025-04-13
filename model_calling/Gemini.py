@@ -14,7 +14,7 @@ class GeminiLLM(LLM):
         self.model = 'gemini-2.0-flash'
         self.temperature = temperature
 
-    def chat(self, user_prompt:str, system_prompt:str=None, max_tokens=1_000):
+    def call_model(self, user_prompt:str, system_prompt:str=None, max_tokens=1_000):
         response = None
         retries = 3
         while retries > 0 and response is None:

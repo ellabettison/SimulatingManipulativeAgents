@@ -13,7 +13,7 @@ class DeepSeekLLM(LLM):
         self.model = 'deepseek-chat'
         self.temperature = temperature
         
-    def chat(self, user_prompt: str, system_prompt: str = None, max_tokens: int = 1_000) -> str:
+    def call_model(self, user_prompt: str, system_prompt: str = None, max_tokens: int = 1_000) -> str:
         messages = []
         if system_prompt is not None:
             messages.append({"role":"system", "content": system_prompt})

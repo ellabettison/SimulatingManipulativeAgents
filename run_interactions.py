@@ -1,5 +1,6 @@
 import argparse
 import json
+import logging
 import random
 
 from datasets import load_dataset
@@ -44,6 +45,7 @@ def get_args():
     parser.add_argument('-n', '--num_interactions', type=int, help="Number of additional interactions per scenario. Defaults to 0", default=0)
     parser.add_argument('-p', '--plan', action='store_true', help="Enable planning for ai assistant") 
     parser.add_argument('-r', '--malicious', type=float, help="Proportion of malicious agents. Defaults to 0.2", default=0.2)
+    parser.add_argument('-l', '--logging', action='store_true', help="Enable logging of model calls")
     return parser.parse_args()
 
 def run_simulation(args):
@@ -59,6 +61,11 @@ def run_simulation(args):
         
     decision_scenarios = json.load(open("prompts/decision_scenarios.json"))["scenarios"]
     personas_list = load_personas()
+    
+    if args.logging:
+        logging.basicConfig(level=logging.INFO)
+    else:
+        logging.basicConfig(level=logging.ERROR)
     
     run_interactions_across_personas(model, decision_scenarios=decision_scenarios, personas=personas_list, interactions_per_scenario=args.num_interactions, plan=args.plan, proportion_malicious=args.malicious)
     

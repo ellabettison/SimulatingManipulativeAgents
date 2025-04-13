@@ -1,3 +1,6 @@
+from utils.display_utils import build_chat_history
+
+
 class SimulateChat:
     def __init__(self, user, agent, scenarios, llm_instance):
         self.llm_instance = llm_instance
@@ -22,7 +25,7 @@ class SimulateChat:
         {self.goal_contradiction_prompt}
 
         Chat history:
-        {chat_history}
+        {build_chat_history(chat_history)}
         """)
         contradicts = contradiction_check.lower().strip() == "yes"
 
@@ -34,7 +37,7 @@ class SimulateChat:
         {self.manipulation_check_prompt}
         
         Chat history:
-        {chat_history}
+        {build_chat_history(chat_history)}
         """)
         contradicts = contradiction_check.lower().strip() == "yes"
 

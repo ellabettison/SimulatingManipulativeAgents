@@ -13,7 +13,7 @@ class OpenAILLM(LLM):
         self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
         self.model = "gpt-4o"
 
-    def chat(self, user_prompt:str, system_prompt:str=None, max_tokens=1_000):
+    def call_model(self, user_prompt:str, system_prompt:str=None, max_tokens=1_000):
 
         messages = []
         if system_prompt is not None:
