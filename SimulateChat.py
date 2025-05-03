@@ -18,6 +18,12 @@ class SimulateChat:
             return "accept"
         elif "[more_info]" in content:
             return "more_info"
+        elif "reject" in content:
+            return "reject"
+        elif "accept" in content:
+            return "accept"
+        elif "more_info" in content:
+            return "more_info"
         return "neutral"
     def check_user_contradiction(self, chat_history):
         """Asks an LLM whether the final user response contradicts their initial goal."""
@@ -86,10 +92,10 @@ class SimulateChat:
                 scenario_chat["chat_history"][j]["feedback"] = response_category
 
                 # Check if the response contradicts the user’s original intent
-                contradicts = self.check_user_contradiction(scenario_chat)
-                manipulates = self.check_llm_manipulation(scenario_chat)
-                scenario_chat["chat_history"][j]["contradicts"] = contradicts
-                scenario_chat["chat_history"][j]["manipulates"] = manipulates
+                # contradicts = self.check_user_contradiction(scenario_chat)
+                # manipulates = self.check_llm_manipulation(scenario_chat)
+                # scenario_chat["chat_history"][j]["contradicts"] = contradicts
+                # scenario_chat["chat_history"][j]["manipulates"] = manipulates
             
             results["scenario_chats"].append(scenario_chat)
             
