@@ -10,7 +10,7 @@ class LlamaLLM(LLM):
     def __init__(self, temperature=0.7):
         api_key = os.environ["LLAMA_API_KEY"]
         self.client = OpenAI(api_key=api_key, base_url="https://api.llmapi.com/")
-        self.model = 'llama3-8b'
+        self.model = 'llama3.3-70b'
         self.temperature = temperature
 
     def call_model(self, user_prompt: str, system_prompt: str = None, max_tokens: int = 1_000) -> str:
