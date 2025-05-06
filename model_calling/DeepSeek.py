@@ -1,6 +1,7 @@
 import os
 import time
 
+
 from openai import OpenAI
 
 from model_calling.LLM import LLM
@@ -9,7 +10,7 @@ from model_calling.LLM import LLM
 class DeepSeekLLM(LLM):
     def __init__(self, temperature=0.7):
         api_key = os.environ["DEEPSEEK_API_KEY"]
-        self.client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com")
+        self.client = OpenAI(api_key=api_key, base_url="https://api.deepseek.com/v1")
         self.model = 'deepseek-chat'
         self.temperature = temperature
         
@@ -33,3 +34,5 @@ class DeepSeekLLM(LLM):
                 print(e)
                 time.sleep(30)
         return response.choices[0].message.content
+
+

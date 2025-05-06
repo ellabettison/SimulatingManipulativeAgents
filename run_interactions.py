@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import random
+import time
 
 from datasets import load_dataset
 from tqdm import tqdm
@@ -97,6 +98,8 @@ def run_simulation(args):
 if __name__ == '__main__':
     args = get_args()
     run_simulation(args)
+   
+
     
 
     
