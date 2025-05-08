@@ -53,9 +53,11 @@ class SimulateChat:
         """Runs the chat simulation for each scenario."""
 
         agent_initial_thoughts = ""
+        agent_initial_thoughts_history = ""
 
         if self.agent.malicious and plan:
             agent_initial_thoughts = self.agent.get_agent_initial_thoughts(self.user, len(self.scenarios), interactions_per_scenario)
+            agent_initial_thoughts_history = "AI assistant plan: "+agent_initial_thoughts
 
         results = {
             "user_personality": self.user.persona,
@@ -82,7 +84,7 @@ class SimulateChat:
 
             for j in range(interactions_per_scenario):
                 # AI generates a response
-                agent_recommendation = self.agent.interact(self.user, scenario_chat)
+                agent_recommendation = self.agent.interact(self.user, scenario_chat, agent_initial_thoughts_history)
                 scenario_chat["chat_history"].append({"recommendation": agent_recommendation})
 
                 # User responds
