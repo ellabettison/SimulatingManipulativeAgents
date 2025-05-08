@@ -22,28 +22,30 @@ def run_full_interaction_across_scenarios(user: SimulatedUser, agent: AIAgent, l
   results = chat_simulator.run_chat(interactions_per_scenario=interactions_per_scenario+1, plan=plan)
   return results
 
-def run_interactions_across_personas(llm_instance: LLM, decision_scenarios: list[str], personas:list[str], interactions_per_scenario: int=0, plan=True, proportion_malicious:float=0.2):
+def run_interactions_across_personas(llm_instance: LLM, decision_scenarios: list[str], personas:list[str], interactions_per_scenario: int=0, plan=True, proportion_malicious:float=0.2, start=0, end=1_000):
   persona_to_index = {'\n'.join(personas[i]): i for i in range(len(personas))}
   filename = f"results/ai_interaction_results_{llm_instance.model}_{interactions_per_scenario}_interactions{'_noplan' if not plan else '_plan'}.json"
   all_results = []
-  start_persona = 0
+  start_persona = start
+  continuing = False
   if os.path.exists(filename):
       prev_results = json.load(open(filename, "r"))
       most_recent_persona = persona_to_index[prev_results[-1]["user_personality"]]
       print(f"Results found for current setup, generated results for {most_recent_persona+1}/{len(personas)} personas")
       resp = ""
       while resp.lower() not in ['c', 'r']:
-        resp = input("Continue generating from previous checkpoint (c) or reset and generate from start (r)?")
+        resp = input(f"Continue generating from previous checkpoint (c) or reset and generate from persona {start_persona} (r)?")
         if resp.lower() not in ['c', 'r']:
             print("Response not recognised, choose from 'c' or 'r'")
       if resp.lower() == 'c':
           print(f"Continuing generation from persona {most_recent_persona+2}")
           start_persona = most_recent_persona+1
           all_results = prev_results
+          continuing = True
       else:
           print("Resetting and generating from persona 0")
   
-  for i in tqdm(range(start_persona, len(personas)), unit="persona", total=len(personas), initial=start_persona):
+  for i in tqdm(range(start_persona, end), unit="persona", total=end if continuing else end-start_persona, initial=start_persona if continuing else 0):
     persona = personas[i]
     agent_is_malicious = random.random() < proportion_malicious
     
@@ -69,6 +71,9 @@ def get_args():
     parser.add_argument('-p', '--plan', action='store_true', help="Enable planning for ai assistant") 
     parser.add_argument('-r', '--malicious', type=float, help="Proportion of malicious agents. Defaults to 0.2", default=0.2)
     parser.add_argument('-l', '--logging', action='store_true', help="Enable logging of model calls for debugging")
+
+    parser.add_argument('-s', '--start_persona', type=int, help="Persona to start on", default=0)
+    parser.add_argument('-e', '--end_persona', type=int, help="Persona to end on", default=1_000)
     return parser.parse_args()
 
 def run_simulation(args):
@@ -92,7 +97,7 @@ def run_simulation(args):
     else:
         logging.basicConfig(level=logging.ERROR)
     
-    run_interactions_across_personas(model, decision_scenarios=decision_scenarios, personas=personas_list, interactions_per_scenario=args.num_interactions, plan=args.plan, proportion_malicious=args.malicious)
+    run_interactions_across_personas(model, decision_scenarios=decision_scenarios, personas=personas_list, interactions_per_scenario=args.num_interactions, plan=args.plan, proportion_malicious=args.malicious, start=args.start_persona, end=args.end_persona)
     
   
 if __name__ == '__main__':
