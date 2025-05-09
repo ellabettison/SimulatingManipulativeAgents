@@ -24,7 +24,7 @@ def run_full_interaction_across_scenarios(user: SimulatedUser, agent: AIAgent, l
 
 def run_interactions_across_personas(llm_instance: LLM, decision_scenarios: list[str], personas:list[str], interactions_per_scenario: int=0, plan=True, proportion_malicious:float=0.2, start=0, end=1_000):
   persona_to_index = {'\n'.join(personas[i]): i for i in range(len(personas))}
-  filename = f"results/ai_interaction_results_{llm_instance.model}_{interactions_per_scenario}_interactions{'_noplan' if not plan else '_plan'}.json"
+  filename = f"results/ai_interaction_results_{llm_instance.model}_{interactions_per_scenario}_interactions{'_noplan' if not plan else '_plan'}_{start}_{end}.json"
   all_results = []
   start_persona = start
   continuing = False
