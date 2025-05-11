@@ -6,11 +6,12 @@ authors = ["Ella <ella.bettison@xapien.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.12"
 google-genai = "^1.10.0"
 datasets = "^3.5.0"
 argparse = "^1.4.0"
 openai = "^1.72.0"
+matplotlib = "^3.10.3"
 
 
 [build-system]
