@@ -108,7 +108,7 @@ def run_detection(input_file: str, model_name: str, api_key: str, threshold: flo
     detector = IntentAwarePromptingBinary(model_name=model_name)
 
     predictions_raw, predictions_binary, actuals = [], [], []
-    for _, row in tqdm(df.head(50).iterrows(), total=50, desc="Running detection", dynamic_ncols=True):
+    for _, row in tqdm(df.head(100).iterrows(), total=100, desc="Running detection", dynamic_ncols=True):
         dialogue = {
             "user_personality": row["user_personality"],
             "scenario": row["scenario"],
@@ -146,9 +146,10 @@ def run_detection(input_file: str, model_name: str, api_key: str, threshold: flo
     print(cm)
 
     base_folder = './results_score/'  
-    dataset_name = os.path.basename(input_file).split('.')[0]  
-    output_file = os.path.join(base_folder, f'{dataset_name}_detection_results.json')  
     
+    filename = os.path.basename(input_file)
+    dataset_name = os.path.splitext(filename)[0]
+    output_file = os.path.join(base_folder, f'{dataset_name}_detection_results.json')  
     os.makedirs(base_folder, exist_ok=True)
 
     results = {
@@ -169,14 +170,27 @@ def run_detection(input_file: str, model_name: str, api_key: str, threshold: flo
 
     print(f"\n[INFO] Saved detailed results to '{output_file}'")
 
+def detect_all_in_folder(folder_path: str, model_name: str, api_key: str, threshold: float):
+    json_files = [f for f in os.listdir(folder_path) if f.endswith('.json')]
+    print(f"[INFO] Found {len(json_files)} dataset(s) in '{folder_path}'.")
 
-# Entry point for terminal execution
+    for json_file in json_files:
+        input_path = os.path.join(folder_path, json_file)
+        print(f"\n{'='*60}\n[INFO] Processing: {json_file}\n{'='*60}")
+        try:
+            run_detection(input_path, model_name, api_key, threshold)
+        except Exception as e:
+            print(f"[ERROR] Failed to process {json_file}: {e}")
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run manipulation detection on AI dialogues.")
-    parser.add_argument("--input", required=True, help="Path to input JSON file.")
+    parser = argparse.ArgumentParser(description="Run detection for all datasets in a folder.")
+    parser.add_argument("--folder", required=True, help="Folder containing JSON dataset files.")
     parser.add_argument("--model", default="gemini-2.0-flash", help="Model name to use.")
     parser.add_argument("--api_key", required=True, help="Your Generative AI API key.")
     parser.add_argument("--threshold", type=float, default=6.0, help="Score threshold for binary classification (default: 6.0)")
     args = parser.parse_args()
 
-    run_detection(args.input, args.model, args.api_key, args.threshold)
+
+    detect_all_in_folder(args.folder, args.model, args.api_key, args.threshold)
+
+
