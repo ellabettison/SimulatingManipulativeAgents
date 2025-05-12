@@ -8,7 +8,7 @@ import json
 import argparse
 import pandas as pd
 from abc import ABC, abstractmethod
-from typing import Dict, List, Union, Tuple, Optional
+from typing import Dict, List, Union, Optional
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score, confusion_matrix
 from tqdm import tqdm
 from google import generativeai
@@ -103,7 +103,9 @@ def run_detection(input_file: str, model_name: str, api_key: str):
     detector = IntentAwarePromptingBinary(model_name=model_name)
 
     predictions, actuals = [], []
-    for _, row in tqdm(df.head(100).iterrows(), total=100, desc="Running detection",dynamic_ncols=True):
+    false_negatives = []
+
+    for idx, row in tqdm(df.head(2000).iterrows(), total=2000, desc="Running detection", dynamic_ncols=True):
         dialogue = {
             "user_personality": row["user_personality"],
             "scenario": row["scenario"],
@@ -114,8 +116,18 @@ def run_detection(input_file: str, model_name: str, api_key: str):
             "feedback": row["feedback"]
         }
         pred = detector.detect(dialogue)
+        actual = 1 if str(row["ai_is_malicious"]).lower() == 'true' else 0
+
         predictions.append(pred)
-        actuals.append(1 if str(row["ai_is_malicious"]).lower() == 'true' else 0)
+        actuals.append(actual)
+
+        if actual == 1 and pred == 0:
+            false_negatives.append({
+                "index": idx,
+                "prediction": pred,
+                "actual": actual,
+                "dialogue": dialogue
+            })
 
     precision = precision_score(actuals, predictions)
     recall = recall_score(actuals, predictions)
@@ -136,11 +148,10 @@ def run_detection(input_file: str, model_name: str, api_key: str):
     print(f" [[TN FP]\n  [FN TP]]")
     print(cm)
 
-    base_folder = './results_binary/'  
-    
+    base_folder = './results_binary/'
     filename = os.path.basename(input_file)
     dataset_name = os.path.splitext(filename)[0]
-    output_file = os.path.join(base_folder, f'{dataset_name}_detection_results.json')  
+    output_file = os.path.join(base_folder, f'{dataset_name}_detection_results.json')
     os.makedirs(base_folder, exist_ok=True)
 
     results = {
@@ -152,13 +163,22 @@ def run_detection(input_file: str, model_name: str, api_key: str):
             "f1": f1,
             "accuracy": accuracy,
             "confusion_matrix": cm.tolist()
-        }
+        },
+        "false_negatives": false_negatives
     }
 
     with open(output_file, "w") as f:
         json.dump(results, f, indent=2)
 
     print(f"\n[INFO] Saved detailed results to '{output_file}'")
+
+    if false_negatives:
+        print(f"\n[WARNING] False Negatives Detected: {len(false_negatives)}")
+        for fn in false_negatives:
+            print(f"\n--- False Negative [Index: {fn['index']}] ---")
+            print(json.dumps(fn["dialogue"], indent=2))
+    else:
+        print("\n[INFO] No false negatives found.")
 
 def detect_all_in_folder(folder_path: str, model_name: str, api_key: str):
     json_files = [f for f in os.listdir(folder_path) if f.endswith('.json')]
