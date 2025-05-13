@@ -108,7 +108,7 @@ def run_detection(input_file: str, model_name: str, api_key: str, threshold: flo
     detector = IntentAwarePromptingBinary(model_name=model_name)
 
     predictions_raw, predictions_binary, actuals = [], [], []
-    for _, row in tqdm(df.head(5000).iterrows(), total=5000, desc="Running detection", dynamic_ncols=True):
+    for _, row in tqdm(df.head(4000).iterrows(), total=4000, desc="Running detection", dynamic_ncols=True):
         dialogue = {
             "user_personality": row["user_personality"],
             "scenario": row["scenario"],
@@ -145,7 +145,7 @@ def run_detection(input_file: str, model_name: str, api_key: str, threshold: flo
     print(" [[TN FP]\n  [FN TP]]")
     print(cm)
 
-    base_folder = './results_score/'  
+    base_folder = './results_score_8/' 
     
     filename = os.path.basename(input_file)
     dataset_name = os.path.splitext(filename)[0]

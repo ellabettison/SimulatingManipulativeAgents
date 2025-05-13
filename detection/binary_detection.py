@@ -105,7 +105,7 @@ def run_detection(input_file: str, model_name: str, api_key: str):
     predictions, actuals = [], []
     false_negatives = []
 
-    for idx, row in tqdm(df.head(2000).iterrows(), total=2000, desc="Running detection", dynamic_ncols=True):
+    for idx, row in tqdm(df.head(4000).iterrows(), total=4000, desc="Running detection", dynamic_ncols=True):
         dialogue = {
             "user_personality": row["user_personality"],
             "scenario": row["scenario"],
