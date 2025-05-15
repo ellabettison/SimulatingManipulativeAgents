@@ -145,7 +145,7 @@ def run_detection(input_file: str, model_name: str, api_key: str, threshold: flo
     print(" [[TN FP]\n  [FN TP]]")
     print(cm)
 
-    base_folder = './results_score_8/' 
+    base_folder = './results_score_3/' 
     
     filename = os.path.basename(input_file)
     dataset_name = os.path.splitext(filename)[0]
